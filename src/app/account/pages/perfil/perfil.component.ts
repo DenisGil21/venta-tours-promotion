@@ -57,14 +57,7 @@ export class PerfilComponent implements OnInit {
     .subscribe(data => {
       Swal.fire('Actualizado', 'Perfil actualizado correctamente', 'success');
     },(err) => {
-      let error:string;
-      if (err.error.email) {
-        [error] = err.error.email
-      }
-      if (err.error.username) {
-        [error] = err.error.username
-      }
-      Swal.fire('Error', error, 'error');
+      Swal.fire('Error', err, 'error');
     });
   }
 
@@ -83,9 +76,8 @@ export class PerfilComponent implements OnInit {
     .subscribe(data => {
       console.log(data);
       Swal.fire('Actualizado', 'Contraseña actualizado correctamente', 'success');
-    },(err) => {
-      const [error] = err.error.old_password;
-      Swal.fire('Error', error, 'error');
+    },(err) => {      
+      Swal.fire('Error', err.error.message, 'error');
     });
   }
 

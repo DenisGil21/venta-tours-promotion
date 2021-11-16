@@ -34,15 +34,15 @@ export class UsuariosComponent implements OnInit, AfterViewChecked {
   cargarUsuarios(busqueda?:string){
     this.cargando = true;
     this.usuarioService.obtenerUsusarios(busqueda)
-    .subscribe(resp => {
+    .subscribe(resp => {      
       this.cargando = false;
-      this.nextPage = resp.next;
-      this.previousPage = resp.previous;
-      this.usuarios = resp.results;
+      this.nextPage = resp.next_page_url;
+      this.previousPage = resp.prev_page_url;
+      this.usuarios = resp.data;
     })
   }
 
-  desactivarUsuario(usuario:Usuario){
+  eliminarUsuario(usuario:Usuario){
     console.log(usuario);
     
     Swal.fire({

@@ -32,33 +32,21 @@
                 <table class="table table-bordered text-center">
                     <thead class="thead-light">
                         <tr>
-                            <th scope="col">Nombre de usuario</th>
                             <th scope="col">Nombre completo</th>
                             <th scope="col">Correo electrónico</th>
-                            <th scope="col">Administrador</th>
-                            <th scope="col">Activo</th>
                             <th scope="col" class="text-center">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let usuario of usuarios">
-                            <td>{{usuario.username}}</td>
                             <td>
                                 <span *ngIf="usuario.first_name">{{usuario.first_name}} {{usuario.last_name}}</span>
                                 <span *ngIf="!usuario.first_name" class="text-danger">El usuario no ha completado sus datos</span>
                             </td>
                             <td>{{usuario.email}}</td>
-                            <td>
-                                <i *ngIf="usuario.is_superuser" class="fas fa-check"></i>
-                                <i *ngIf="!usuario.is_superuser" class="fas fa-times"></i>
-                            </td>
-                            <td>
-                                <i *ngIf="usuario.is_active" class="fas fa-check"></i>
-                                <i *ngIf="!usuario.is_active" class="fas fa-times"></i>
-                            </td>
                             <td class="text-center">
-                                <a class="cursor m-1" (click)="desactivarUsuario(usuario)" data-toggle="tooltip" data-placement="top" [title]="usuario.is_active?'Desactivar':'Activar'">
-                                    <i class="fas" [ngClass]="{'fa-lock-open':usuario.is_active,'fa-lock':!usuario.is_active}"></i>
+                                <a class="cursor m-1" (click)="eliminarUsuario(usuario)" data-toggle="tooltip" data-placement="top" title="Eliminar">
+                                    <i class="fas fa-trash"></i>
                                 </a>
                             </td>
                         </tr>

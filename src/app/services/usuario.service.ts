@@ -6,6 +6,7 @@ import { Login } from '../interfaces/login.interface';
 import { of, Observable } from 'rxjs';
 import { Usuario } from '../models/usuario.model';
 import { Registro } from '../interfaces/registro.interface';
+import { CargarUsuario } from '../interfaces/cargar-usuarios.interface';
 
 
 const base_url = environment.base_url;
@@ -80,13 +81,9 @@ export class UsuarioService {
     { headers:new HttpHeaders().set('Authorization',`Bearer ${localStorage.getItem('token')}`), params: new HttpParams().set('nombre', filtro) } : 
     {headers:new HttpHeaders().set('Authorization',`Bearer ${localStorage.getItem('token')}`)};
     return this.http.get(url,options).pipe(
-      map((resp:{next:string, previous:string, results:Usuario[]}) => resp) 
+      map((resp:{usuarios:CargarUsuario}) => resp.usuarios) 
     )
   }
-
-  // desactivarUsuario(id:number){
-  //   return this.http.delete(`${url}/${id}`,this.headers)
-  // }
 
   eliminarUsuario(id:number){
     return this.http.delete(`${url}/${id}`,this.headers)
