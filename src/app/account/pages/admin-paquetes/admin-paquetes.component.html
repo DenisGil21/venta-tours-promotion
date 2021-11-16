@@ -1,0 +1,70 @@
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink="/account">Cuenta</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Paquetes</li>
+    </ol>
+</nav>
+<div class="row mb-3 animate__animated animate__fadeIn">
+    <div class="col-12">
+        <app-buscador [placeholder]="'Buscar paquete'"></app-buscador>
+
+    </div>
+</div>
+<div class="row mt-4" *ngIf="cargando">
+    <div class="col-12">
+        <div class=" alert alert-info text-center" role="alert">
+            <h4 class="alert-heading">Cargando</h4>
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            <p class="mb-0">Por favor espere</p>
+        </div>
+    </div>
+</div>
+<div class="row animate__animated animate__fadeIn" *ngIf="!cargando">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-8">
+                        <h4>Lista de paquetes</h4>
+                    </div>
+                    <div class="col-4">
+                        <div class="text-right">
+                            <button class="btn btn-primary fa-pull-right mb-3" [routerLink]="['/account','paquete','nuevo']"><i class="fas fa-plus-square"></i> Agregar paquete</button>
+                        </div>
+                    </div>
+                </div>
+                <table class="table table-bordered text-center">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">Portada</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Precio adulto</th>
+                            <th scope="col">Precio niño</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let paquete of paquetes">
+                            <td><img class="avatar" [src]="paquete.portada" alt=""></td>
+                            <td>{{paquete.nombre}}</td>
+                            <td>${{paquete.precio_adulto}}</td>
+                            <td>${{paquete.precio_nino}}</td>
+                            <td>
+                                <a class="cursor m-1" (click)="editarPaquete(paquete.id)" data-toggle="tooltip" data-placement="top" title="Editar"><i class="fas fa-edit"></i></a>
+                                <a class="cursor m-1" (click)="irGaleria(paquete.id)" data-toggle="tooltip" data-placement="top" title="Galeria"><i class="fas fa-images"></i></a>
+                                <a class="cursor m-1" (click)="eliminarPaquete(paquete)" data-toggle="tooltip" data-placement="top" title="Eliminar"><i class="fas fa-trash"></i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div>
+                    <app-pagination (mandarData)="cargaDataPaginacion($event)" [nextPage]="nextPage" [previousPage]="previousPage"></app-pagination>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

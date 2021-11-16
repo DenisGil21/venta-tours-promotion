@@ -1,0 +1,37 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-info fixed-top" style="padding: .75rem;">
+    <a class="navbar-brand" href="#">VentaTours</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarColor02">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item" routerLinkActive="active">
+                <a class="nav-link" routerLink='/home'><i class="fas fa-home"></i> INICIO <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item" routerLinkActive="active">
+                <a class="nav-link" routerLink='/about'><i class="fas fa-info-circle"></i> ACERCA DE</a>
+            </li>
+            <li class="nav-item" routerLinkActive="active">
+                <a class="nav-link" routerLink='/contact'><i class="fas fa-id-card"></i> CONTACTO</a>
+            </li>
+        </ul>
+        <form class="form-inline" (ngSubmit)="buscar(txtTermino.value)">
+            <!-- <div id="google_translate_element"></div> -->
+            <input #txtTermino class="form-control mr-sm-2" type="search" placeholder="Buscar paquete" aria-label="Search">
+            <button class="btn btn-outline-light my-2 my-sm-0 mr-2" type="submit"><i class="fas fa-search"></i> Buscar</button>
+            <a *ngIf="!existeUsuario()" class="btn btn-outline-light my-2 my-sm-0" routerLink='/auth/login'><i class="fas fa-user"></i> Iniciar sesion</a>
+            <ul *ngIf="existeUsuario()" class="navbar-nav mr-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-user"></i> {{usuario.email}}
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" routerLink='/account'>Cuenta</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item cursor" (click)="logout()">Cerrar Sesión</a>
+                    </div>
+                </li>
+            </ul>
+        </form>
+    </div>
+</nav>

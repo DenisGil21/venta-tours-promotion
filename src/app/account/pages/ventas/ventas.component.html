@@ -1,0 +1,78 @@
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink="/account">Cuenta</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Ventas</li>
+    </ol>
+</nav>
+<div class="row mb-3 animate__animated animate__fadeIn">
+    <div class="col-lg-10">
+        <div class="card">
+            <div class="card-body">
+
+                <input type="text" class="form-control" placeholder="Buscar venta por usuario" (keyup)="buscar()" #txtTermino>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-2">
+        <label for="filtro">Filtrar:</label>
+        <select #asFiltro (change)="filtrar()" id="filtro" class="custom-select custom-select-sm">
+            <option value="" selected>Todos</option>
+            <option value="1">Reservado</option>
+            <option value="2">Cancelado</option>
+            <option value="3">Reembolsado</option>
+      </select>
+    </div>
+</div>
+<div class="row animate fadeIn fast mt-4" *ngIf="cargando">
+    <div class="col-12">
+        <div class=" alert alert-info text-center" role="alert">
+            <h4 class="alert-heading">Cargando</h4>
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            <p class="mb-0">Por favor espere</p>
+        </div>
+    </div>
+</div>
+<div class="row animate__animated animate__fadeIn" *ngIf="!cargando">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-8">
+                        <h4>Lista de ventas</h4>
+                    </div>
+                </div>
+                <table class="table table-bordered">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">Usuario</th>
+                            <th scope="col">Fecha de compra</th>
+                            <th scope="col">Total</th>
+                            <th scope="col" class="text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let venta of ventas">
+                            <td>{{venta.user.first_name}} {{venta.user.last_name}}</td>
+                            <td>{{venta.created_at}}</td>
+                            <td>${{venta.total}}</td>
+                            <td class="text-center">
+                                <a class="cursor m-1" data-toggle="modal" data-target="#detalleVenta" (click)="detalleVenta(venta)"><i class="fas fa-eye" data-toggle="tooltip" data-placement="top" title="Ver detalle"></i></a>
+                                <a class="cursor m-1" *ngIf="venta.status == 'CANCELADO'" data-toggle="tooltip" data-placement="top" title="Reembolsar" (click)="reembolsar(venta)"><i class="fas fa-donate"></i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div>
+                    <app-pagination (mandarData)="cargaDataPaginacion($event)" [nextPage]="nextPage" [previousPage]="previousPage"></app-pagination>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Modal -->
+<app-modal-venta [venta]="venta"></app-modal-venta>
