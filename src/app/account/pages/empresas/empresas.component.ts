@@ -11,7 +11,7 @@ declare var $:any;
 })
 export class EmpresasComponent implements OnInit,AfterViewChecked {
 
-  public empresas:Empresa[];
+  public empresas:Empresa[] = [];
   public cargando:boolean = true;
 
   constructor(private empresaService:EmpresaService, private activatedRoute:ActivatedRoute) { }

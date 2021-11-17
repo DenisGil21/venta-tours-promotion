@@ -3,7 +3,6 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { map } from 'rxjs/operators';
 import { Empresa } from '../interfaces/empresa.interface';
-import { Paquete } from '../interfaces/paquete.interface';
 
 const base_url = environment.base_url;
 const url = `${base_url}/api/empresas`;
@@ -28,16 +27,9 @@ export class EmpresaService {
     { params: new HttpParams().set('search', filtro) } : {};
     
     return this.http.get(url,options).pipe(
-      map((resp:Empresa[]) => resp)
+      map((resp:{empresas:Empresa[]}) => resp.empresas)
     );
   }
-
-  //No esta en uso
-  // cargarEmpresaPaquetes(id:number){
-  //   return this.http.get(`${url}/${id}/paquetes`).pipe(
-  //     map((resp:Paquete[])=> resp)
-  //   );
-  // }
 
   crearEmpresa(nombre:string){
     return this.http.post(url,{nombre}, this.headers);
