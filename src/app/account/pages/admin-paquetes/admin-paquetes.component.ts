@@ -44,27 +44,13 @@ export class AdminPaquetesComponent implements OnInit, AfterViewChecked {
     this.cargando = true;
     this.paqueteService.cargarPaquetes(busqueda)
     .subscribe((paquetes) => {
-      this.paquetes = paquetes.results;
-      this.nextPage = paquetes.next;
-      this.previousPage = paquetes.previous;
+      this.paquetes = paquetes.data;
+      this.nextPage = paquetes.next_page_url;
+      this.previousPage = paquetes.prev_page_url;
       this.cargando = false
     });
   }
 
-  buscar(termino:string){    
-    if(termino.length === 0){
-      this.cargarPaquetes();
-      return;
-    }
-    this.cargando = true;
-    this.paqueteService.cargarPaquetes(termino)
-    .subscribe(paquetes => {
-      console.log(paquetes);
-      
-      this.cargando = false;
-      this.paquetes = paquetes.results;
-    });
-  }
 
   eliminarPaquete(paquete:Paquete){
     Swal.fire({

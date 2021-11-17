@@ -28,9 +28,11 @@ export class PaquetesComponent implements OnInit {
     // este es para el efecto de scroll
     AOS.init();
     this.activatedRoute.queryParams.subscribe(params => {  
-      this.empresaFiltro = params.filtro;
+      console.log(params);
+      
+      this.empresaFiltro = params.empresa;
       this.precioFiltro = params.precio;  
-      this.cargarPaquetes(params.paquete,params.filtro,params.precio)
+      this.cargarPaquetes(params.nombre,params.empresa,params.precio)
     });
     this.cargarEmpresas();
     
@@ -41,14 +43,14 @@ export class PaquetesComponent implements OnInit {
   //   this.cargarPaquetes();    
   // }
 
-  cargarPaquetes(busqueda?:string, filtro?:string, precio?:string){    
+  cargarPaquetes(nombre?:string, empresa?:string, precio?:string){    
     this.cargando = true;
-    this.paqueteService.cargarPaquetes(busqueda, filtro, precio)
+    this.paqueteService.cargarPaquetes(nombre, empresa, precio)
     .subscribe((paquetes) => {
       this.cargando = false;
-      this.paquetes = paquetes.results;
-      this.previousPage = paquetes.previous;
-      this.nextPage = paquetes.next;
+      this.paquetes = paquetes.data;
+      this.previousPage = paquetes.prev_page_url;
+      this.nextPage = paquetes.next_page_url;
     });
   }
 
@@ -60,7 +62,7 @@ export class PaquetesComponent implements OnInit {
   }
 
   filtroEmpresa(nombre:string){ 
-    this.router.navigate(['/home'], {queryParams:{filtro:nombre},queryParamsHandling: 'merge'});
+    this.router.navigate(['/home'], {queryParams:{empresa:nombre},queryParamsHandling: 'merge'});
   }
 
   filtroPrecio(mayor:boolean){
@@ -76,7 +78,7 @@ export class PaquetesComponent implements OnInit {
   }
 
   removerFiltroEmpresa(){
-    this.router.navigate(['/home'], {queryParams:{filtro:null},queryParamsHandling: 'merge'});
+    this.router.navigate(['/home'], {queryParams:{empresa:null},queryParamsHandling: 'merge'});
   }
 
   cargaDataPaginacion(event:any) {

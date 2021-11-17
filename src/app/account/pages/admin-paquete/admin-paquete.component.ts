@@ -3,11 +3,9 @@ import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { EmpresaService } from '../../../services/empresa.service';
 import { Empresa } from '../../../interfaces/empresa.interface';
 import { PaqueteService } from '../../../services/paquete.service';
-import { CaracteristicaService } from '../../../services/caracteristica.service';
 import Swal from 'sweetalert2';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Paquete } from '../../../interfaces/paquete.interface';
-import { Caracteristica } from '../../../interfaces/caracteristica.interface';
 
 @Component({
   selector: 'app-admin-paquete',
@@ -22,10 +20,8 @@ export class AdminPaqueteComponent implements OnInit {
   public imgTemp:any = null;
   public imgCarga:string;
   public paqueteSeleccionado:Paquete;
-  public caracteristicasSeleccionado:Caracteristica[]=[];
-  public caracteristicasEliminar:number[] = [];
 
-  constructor(private fb: FormBuilder, private empresaService: EmpresaService, private paqueteService: PaqueteService, private caracteristicaService: CaracteristicaService,
+  constructor(private fb: FormBuilder, private empresaService: EmpresaService, private paqueteService: PaqueteService,
     private router:Router, private activatedRoute: ActivatedRoute) { }
 
   get caracteristicas(){
@@ -61,7 +57,7 @@ export class AdminPaqueteComponent implements OnInit {
       nombre: ['', Validators.required],
       precio_adulto: ['', Validators.required],
       precio_nino: ['', Validators.required],
-      empresa: ['', Validators.required],
+      empresa_id: ['', Validators.required],
       descripcion: ['', Validators.required],
       caracteristicas: this.fb.array([]),
       informacion: this.fb.array([])
@@ -76,14 +72,15 @@ export class AdminPaqueteComponent implements OnInit {
     .subscribe(paquete => {
       console.log(paquete);
       this.paqueteSeleccionado = paquete;
-      this.caracteristicasSeleccionado = paquete.caracteristicas;
       this.paqueteForm.reset({nombre:paquete.nombre, precio_adulto: paquete.precio_adulto, precio_nino: paquete.precio_nino,
-      empresa:paquete.empresa.id, descripcion: paquete.descripcion});
+      empresa_id:paquete.empresa.id, descripcion: paquete.descripcion});
 
-      paquete.caracteristicas.forEach(valor => {
-        this.caracteristicas.push(this.fb.control({value:valor.descripcion, disabled:true}));
+      const carateristicas = JSON.parse(paquete.caracteristicas);
+      const informacion = JSON.parse(paquete.informacion);
+      carateristicas.forEach(valor => {
+        this.caracteristicas.push(this.fb.control({value:valor, disabled:true}));
       });
-      paquete.informacion.forEach(valor => {
+      informacion.forEach(valor => {
         this.informacion.push(this.fb.control({value:valor, disabled:true}))
       });
 
@@ -111,38 +108,24 @@ export class AdminPaqueteComponent implements OnInit {
     if (this.paqueteSeleccionado) {
       this.paqueteService.actualizarPaquete(this.paqueteForm.value,this.paqueteSeleccionado.id)
       .subscribe(resp => {
-        this.caracteristicasEliminar.forEach(valor => {
-          this.caracteristicaService.eliminarCaracteristica(valor).subscribe();
-        })
-        this.caracteristicas.controls.forEach(valor => {
-          let encontro = this.caracteristicasSeleccionado.find(value => value.descripcion == valor.value);
-          if(!encontro){
-            this.caracteristicaService.guardarCaracteristica(valor.value,resp.id).subscribe();
-          }
-        });
-        this.paqueteService.subirPortada(this.portada, resp.id)
-        .then(portada => {
-          console.log(portada);
-          
-        }).catch(err => {
-          console.log(err);
-        });
+          if (this.portada) {
+            this.paqueteService.subirPortada(this.portada, resp.id)
+          .then(portada => {
+            console.log(portada);
+            
+          }).catch(err => {
+            console.log(err);
+          });
+        }
         Swal.fire('Actualizado', 'Paquete actualizado correctamente', 'success');
         this.router.navigateByUrl('/account/paquetes')
       }),(err) => {
         Swal.fire('Error', err, 'error');
       };
     }else{
-      const data = {
-        ...this.paqueteForm.value
-      }
-      delete data.caracteristicas;
   
-      this.paqueteService.guardarPaquete(data)
+      this.paqueteService.guardarPaquete(this.paqueteForm.value)
       .subscribe(resp => {
-        this.caracteristicas.controls.forEach(valor => {
-          this.caracteristicaService.guardarCaracteristica(valor.value,resp.id).subscribe();
-        });
         this.paqueteService.subirPortada(this.portada, resp.id)
         .then(portada => {
           console.log(portada);
@@ -161,11 +144,7 @@ export class AdminPaqueteComponent implements OnInit {
   }
 
 
-  borrarCaracteristica(i:number,id:number){    
-    if (this.paqueteSeleccionado) {      
-      this.caracteristicasSeleccionado = this.caracteristicasSeleccionado.filter(value => value.id != id);
-      this.caracteristicasEliminar.push(id);
-    }
+  borrarCaracteristica(i:number){    
     this.caracteristicas.removeAt(i);
   }
 

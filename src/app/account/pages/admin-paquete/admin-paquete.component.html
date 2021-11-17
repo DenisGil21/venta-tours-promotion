@@ -55,11 +55,11 @@
                         <div class="col-lg-6 col-md-12">
                             <div class="form-group">
                                 <label for="empresa">Seleccione empresa</label>
-                                <select class="form-control" id="empresa" formControlName="empresa">
+                                <select class="form-control" id="empresa" formControlName="empresa_id">
                         <option value="">Seleccione empresa</option>
                         <option *ngFor="let empresa of empresas" [value]="empresa.id">{{empresa.nombre}}</option>
                       </select>
-                                <small *ngIf="campoNoValido('empresa')" class="text-center text-danger">
+                                <small *ngIf="campoNoValido('empresa_id')" class="text-center text-danger">
                         El campo es obligatorio
                     </small>
                             </div>
@@ -91,7 +91,7 @@
                                     <input class="form-control" type="tex" [formControlName]="i">
                                 </td>
                                 <td>
-                                    <a class="btn btn-danger btn-block" (click)="borrarCaracteristica(i,caracteristicasSeleccionado[i]?.id)">
+                                    <a class="btn btn-danger btn-block" (click)="borrarCaracteristica(i)">
                                         <i class="fas fa-trash-alt"></i>
                                     </a>
                                 </td>

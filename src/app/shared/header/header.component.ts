@@ -31,9 +31,9 @@ export class HeaderComponent implements OnInit {
 
   buscar(termino:string){    
     if (termino.length !== 0){
-      this.router.navigate(['/home'], {queryParams:{paquete:termino},queryParamsHandling: 'merge'});
+      this.router.navigate(['/home'], {queryParams:{nombre:termino},queryParamsHandling: 'merge'});
     }else{
-      this.router.navigate(['/home'], {queryParams:{paquete:null},queryParamsHandling: 'merge'});
+      this.router.navigate(['/home'], {queryParams:{nombre:null},queryParamsHandling: 'merge'});
     }
   }
 

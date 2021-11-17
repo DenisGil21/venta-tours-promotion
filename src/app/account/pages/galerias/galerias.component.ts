@@ -18,7 +18,6 @@ export class GaleriasComponent implements OnInit {
   public cargando:boolean = false;
   public imagen:File;
   public imgTemp = null;
-  public imgCarga:string;
 
   constructor(private activatedRoute:ActivatedRoute, private paqueteService: PaqueteService, private galeriaService: GaleriaService) { }
 
@@ -32,7 +31,7 @@ export class GaleriasComponent implements OnInit {
 
   cargarPaquete(id:number){
     this.paqueteService.cargarPaquete(id)
-    .subscribe(paquete => {
+    .subscribe(paquete => {      
       this.cargando = false;
       this.paquete = paquete;
       this.galerias = paquete.galerias;
@@ -65,7 +64,8 @@ export class GaleriasComponent implements OnInit {
 
     this.galeriaService.subirImagen(this.imagen, String(this.paquete.id))
     .then(resp => {
-      console.log(resp);
+      this.imgTemp = null;
+      this.imagen = null;
       Swal.fire('Subido', 'Imagen subida a la galeria', 'success');     
       this.cargarPaquete(this.paquete.id)
     })

@@ -28,7 +28,7 @@ export class GaleriaService {
     try {
       const formData = new FormData();
       formData.append('imagen', imagen);
-      formData.append('paquete', paquete);
+      formData.append('paquete_id', paquete);
       const resp = await fetch(url, {
         method: 'POST',
         headers: {

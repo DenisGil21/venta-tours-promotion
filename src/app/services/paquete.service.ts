@@ -22,30 +22,30 @@ export class PaqueteService {
     }
   }
 
-  cargarPaquetes(busqueda?:string, filtro?:string, precio?:string){
-    console.log(precio,'desde service');
+  cargarPaquetes(nombre?:string, empresa?:string, precio?:string){
+    console.log(empresa,'desde service');
     
     let params = new HttpParams();
-    if (busqueda) {
-      params = params.set('nombre', busqueda);
+    if (nombre) {
+      params = params.set('nombre', nombre);
     }
-    if (filtro) {
-      params = params.set('filtro', filtro);
+    if (empresa) {
+      params = params.set('empresa', empresa);
     }
     if(precio){
       params = params.set('precio', precio);
     }
-    const options = busqueda || filtro || precio ?
+    const options = nombre || empresa || precio ?
     { params } :{};    
 
     return this.http.get(url,options).pipe(
-      map((resp:{next:string, previous:string, results:Paquete[]}) => resp)
+      map((resp:{paquetes:{next_page_url:string, prev_page_url:string, data:Paquete[]}}) => resp.paquetes)
     );
   }
 
   cargarPaquete(id:number){
     return this.http.get(`${url}/${id}`).pipe(
-      map((resp:Paquete)=>resp)
+      map((resp:{paquete:Paquete})=>resp.paquete)
     );
   }
 
@@ -56,30 +56,31 @@ export class PaqueteService {
 
   guardarPaquete(paquete:any){
     return this.http.post(url,paquete,this.headers).pipe(
-      map((resp:Paquete) => resp)
+      map((resp:{paquete:Paquete}) => resp.paquete)
     )
   }
 
   actualizarPaquete(paquete:any, id:number){
     return this.http.put(`${url}/${id}`,paquete,this.headers)
     .pipe(
-      map((resp:Paquete) => resp)
+      map((resp:{paquete:Paquete}) => resp.paquete)
     );
   }
 
-  async subirPortada(portada: File, id: number){
+  async subirPortada(portada: File, id: number){    
     try {
       const formData = new FormData();
       formData.append('portada', portada);
+      formData.append('_method', 'put');
       const resp = await fetch(`${url}/${id}`, {
-        method: 'PUT',
+        method: 'POST',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}` || ''
         },
         body: formData
       });
       
-      const data = await resp.json();      
+      const data = await resp.json();            
       if(data.portada){
         return true;
       }

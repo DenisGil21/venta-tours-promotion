@@ -3,8 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { PaqueteService } from '../../../services/paquete.service';
 import { Paquete } from '../../../interfaces/paquete.interface';
 import { Galeria } from '../../../interfaces/galeria.iterface';
-import { UsuarioService } from '../../../services/usuario.service';
-import { Usuario } from '../../../models/usuario.model';
 
 @Component({
   selector: 'app-paquete',
@@ -16,6 +14,9 @@ export class PaqueteComponent implements OnInit {
   public paquete:Paquete;
   public galerias: Galeria[];
   public cargando:boolean = true;
+  public caracteristicas:string[]=[];
+  public informacion:string[]=[];
+  public urlWhatsApp:string='';
 
   constructor(private paqueteService:PaqueteService, private activatedRoute:ActivatedRoute) { }
 
@@ -29,8 +30,11 @@ export class PaqueteComponent implements OnInit {
     this.cargando = true;
     this.paqueteService.cargarPaquete(id)
     .subscribe(paquete => {
-      this.paquete = paquete
-      this.galerias = paquete.galerias
+      this.paquete = paquete;
+      this.galerias = paquete.galerias;
+      this.caracteristicas = JSON.parse(paquete.caracteristicas);
+      this.informacion = JSON.parse(paquete.informacion);
+      this.urlWhatsApp = `https://api.whatsapp.com/send?phone=529321186344&text=Quiero reservar el tour: ${paquete.nombre}`
       this.cargando=false;
       console.log(this.paquete);
     })

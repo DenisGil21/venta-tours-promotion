@@ -22,9 +22,8 @@
     <div class="row">
         <div class="col-lg-6">
             Imagen para el paquete turistico:
-            <div class="text-center">
-                <img *ngIf="!imgTemp && imgCarga" alt="" [src]="imgCarga" class="img-portada">
-                <img *ngIf="!imgTemp && !imgCarga" alt="" src="../../../../../assets/icons/no-img.png" class="img-portada">
+            <div class="text-center mb-2">
+                <img *ngIf="!imgTemp" alt="" src="../../../../../assets/icons/no-img.png" class="img-portada">
                 <img *ngIf="imgTemp" [src]="imgTemp" alt="" class="img-portada">
             </div>
             <div class="custom-file mb-3">
