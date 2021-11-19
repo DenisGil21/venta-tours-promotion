@@ -39,7 +39,7 @@ export class PaqueteService {
     { params } :{};    
 
     return this.http.get(url,options).pipe(
-      map((resp:{paquetes:{next_page_url:string, prev_page_url:string, data:Paquete[]}}) => resp.paquetes)
+      map((resp:{results:{next_page_url:string, prev_page_url:string, data:Paquete[]}}) => resp.results)
     );
   }
 

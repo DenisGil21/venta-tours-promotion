@@ -30,9 +30,9 @@ export class PaginationComponent implements OnInit, OnChanges {
   cambiarPagina(url:string){    
     this.paginacionService.paginacionData(url,this.urlPrivate)
     .subscribe(data => {
-      this.data = data.results;
-      this.next = data.next;
-      this.previous = data.previous;
+      this.data = data.data;
+      this.next = data.next_page_url;
+      this.previous = data.prev_page_url;
       this.mandarData.emit(this.data);
     });
   }

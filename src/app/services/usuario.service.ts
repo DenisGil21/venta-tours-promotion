@@ -81,7 +81,7 @@ export class UsuarioService {
     { headers:new HttpHeaders().set('Authorization',`Bearer ${localStorage.getItem('token')}`), params: new HttpParams().set('nombre', filtro) } : 
     {headers:new HttpHeaders().set('Authorization',`Bearer ${localStorage.getItem('token')}`)};
     return this.http.get(url,options).pipe(
-      map((resp:{usuarios:CargarUsuario}) => resp.usuarios) 
+      map((resp:{results:CargarUsuario}) => resp.results) 
     )
   }
 

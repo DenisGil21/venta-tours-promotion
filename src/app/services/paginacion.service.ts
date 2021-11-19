@@ -13,7 +13,7 @@ export class PaginacionService {
   paginacionData(url:string,urlPrivate=true){
     const options = urlPrivate ? {headers:new HttpHeaders().set('Authorization',`Bearer ${localStorage.getItem('token')}`)}: {};
     return this.http.get(url, options).pipe(
-      map((resp:{next:string, previous:string, results:any[]}) => resp)
+      map((resp:{results:{next_page_url:string, prev_page_url:string, data:any[]}}) => resp.results)
     );
   }
 }
