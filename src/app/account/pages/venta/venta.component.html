@@ -1,0 +1,108 @@
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink="/account">Cuenta</a></li>
+        <li class="breadcrumb-item"><a routerLink="/account/ventas">Ventas</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Nuevo</li>
+
+    </ol>
+</nav>
+<div class="venta">
+    <div class="text-center mb-4 mt-4">
+        <h5 id="title-compra">VENDER PAQUETE TURÍSTICO</h5>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 col-md-7 col-lg-8 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="text-center mb-3"><b>Datos para la compra:</b></div>
+                    <form [formGroup]="formPago" (ngSubmit)="realizarVenta()">
+                        <div class="form-row">
+                            <div class="form-group col-lg-4 col-md-6">
+                                <label for="cliente">Nombre del cliente:</label>
+                                <input type="text" class="form-control" id="cliente" placeholder="Nombre" formControlName="cliente" [class.is-invalid]="campoNoValido('cliente')">
+                                <small *ngIf="campoNoValido('cliente')" class="text-center text-danger">
+                                    El campo es obligatorio
+                                </small>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6">
+                                <label for="adulto">Numero de telefono:</label>
+                                <input type="tel" class="form-control" id="adulto" placeholder="Telefono" formControlName="telefono" [class.is-invalid]="campoNoValido('telefono')">
+                                <small *ngIf="campoNoValido('telefono')" class="text-center text-danger">
+                                    Debe ser por lo menos de 10 digitos
+                                </small>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6">
+                                <label for="paquete">Paquetes:</label>
+                                <select (change)="cargarPaquete()" class="form-control" id="paquete" formControlName="paquete_id" [class.is-invalid]="campoNoValido('paquete_id')">
+                                    <option value="">Seleccione paquete</option>
+                                    <option *ngFor="let paquete of paquetes" [value]="paquete.id">{{paquete.nombre}}</option>
+                                </select>
+                                <small *ngIf="campoNoValido('paquete_id')" class="text-center text-danger">
+                                    El campo es obligatorio
+                                </small>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6">
+                                <label for="fecha">Fecha:</label>
+                                <input type="date" (change)="detalleVenta.fecha = $event.target.value" class="form-control" id="fecha" formControlName="fecha" [class.is-invalid]="campoNoValido('fecha')">
+                                <small *ngIf="campoNoValido('fecha')" class="text-center text-danger">
+                                    La fecha es obligatoria y debe ser mayor a la actual
+                                </small>
+                            </div>
+                            <div class="col-lg-4 col-md-6">
+                                <label for="adulto">Adultos:</label>
+                                <div class="input-group mb-2">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text"><i class="fas fa-male"></i></div>
+                                    </div>
+                                    <input type="number" (keyup)="calcularTotal($event.target.value);" class="form-control" id="adulto" placeholder="Cantidad" formControlName="cantidad_adultos" [class.is-invalid]="campoNoValido('cantidad_adultos')">
+                                </div>
+                                <small *ngIf="campoNoValido('cantidad_adultos')" class="text-center text-danger">
+                                    Debe ser mayor a 1
+                                </small>
+                            </div>
+                            <div class="col-lg-4 col-md-6">
+                                <label for="nino">Niños:</label>
+                                <div class="input-group mb-2">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text"><i class="fas fa-child"></i></div>
+                                    </div>
+                                    <input type="number" (keyup)="calcularTotal('',$event.target.value);" class="form-control" id="nino" placeholder="Cantidad" formControlName="cantidad_ninos" [class.is-invalid]="campoNoValido('cantidad_ninos')">
+                                    <small *ngIf="campoNoValido('cantidad_ninos')" class="text-center text-danger">
+                                        El campo es obligatorio
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-center mt-3">
+                            <button type="submit" class="btn btn-outline-primary btn-block mt-2 w-75"><i class="fas fa-credit-card"></i> Realizar venta</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-5 col-lg-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="text-center mb-3">
+                        <b>Información detallada de compra:</b>
+                    </div>
+                    <div class="row text-center detalle-compra">
+                        <div class="col-md-6">
+                            <p><i class="fas fa-male"></i> Adultos:</p>
+                            <p><i class="fas fa-child"></i> Niños:</p>
+                            <p><i class="fas fa-calendar-alt"></i> Fecha:</p>
+                        </div>
+                        <div class="col-md-6 text-center">
+                            <p>${{detalleVenta.adulto}}</p>
+                            <p>${{detalleVenta.nino}}</p>
+                            <p>{{detalleVenta.fecha}}</p>
+                        </div>
+                    </div>
+                    <div class="text-center detalle-compra">
+                        <p><i class="fas fa-shopping-cart"></i> Total: <span>${{detalleVenta.total}}</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

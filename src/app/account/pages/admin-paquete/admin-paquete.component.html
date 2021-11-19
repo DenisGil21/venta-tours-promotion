@@ -56,12 +56,12 @@
                             <div class="form-group">
                                 <label for="empresa">Seleccione empresa</label>
                                 <select class="form-control" id="empresa" formControlName="empresa_id">
-                        <option value="">Seleccione empresa</option>
-                        <option *ngFor="let empresa of empresas" [value]="empresa.id">{{empresa.nombre}}</option>
-                      </select>
+                                    <option value="">Seleccione empresa</option>
+                                    <option *ngFor="let empresa of empresas" [value]="empresa.id">{{empresa.nombre}}</option>
+                                </select>
                                 <small *ngIf="campoNoValido('empresa_id')" class="text-center text-danger">
-                        El campo es obligatorio
-                    </small>
+                                    El campo es obligatorio
+                                </small>
                             </div>
                         </div>
                         <div class="col-lg-12">
@@ -69,8 +69,8 @@
                                 <label for="descripcion">Descripción:</label>
                                 <textarea class="form-control" id="descripcion" rows="4" formControlName="descripcion"></textarea>
                                 <small *ngIf="campoNoValido('descripcion')" class="text-center text-danger">
-                            El campo es obligatorio
-                        </small>
+                                    El campo es obligatorio
+                                </small>
                             </div>
                         </div>
                     </div>

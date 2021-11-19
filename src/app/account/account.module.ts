@@ -13,6 +13,7 @@ import { PanelComponent } from './pages/panel/panel.component';
 import { PerfilComponent } from './pages/perfil/perfil.component';
 import { UsuariosComponent } from './pages/usuarios/usuarios.component';
 import { ComponentsModule } from '../components/components.module';
+import { VentaComponent } from './pages/venta/venta.component';
 
 
 
@@ -28,6 +29,7 @@ import { ComponentsModule } from '../components/components.module';
     PanelComponent,
     PerfilComponent,
     UsuariosComponent,
+    VentaComponent,
   ],
   imports: [
     CommonModule,

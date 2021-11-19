@@ -5,23 +5,8 @@
     </ol>
 </nav>
 <div class="row mb-3 animate__animated animate__fadeIn">
-    <div class="col-lg-10">
-        <div class="card">
-            <div class="card-body">
-
-                <input type="text" class="form-control" placeholder="Buscar venta por usuario" (keyup)="buscar()" #txtTermino>
-
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-2">
-        <label for="filtro">Filtrar:</label>
-        <select #asFiltro (change)="filtrar()" id="filtro" class="custom-select custom-select-sm">
-            <option value="" selected>Todos</option>
-            <option value="1">Reservado</option>
-            <option value="2">Cancelado</option>
-            <option value="3">Reembolsado</option>
-      </select>
+    <div class="col-lg-12">
+        <app-buscador [placeholder]="'Buscar venta por nombre de cliente'"></app-buscador>
     </div>
 </div>
 <div class="row animate fadeIn fast mt-4" *ngIf="cargando">
@@ -43,6 +28,11 @@
                     <div class="col-8">
                         <h4>Lista de ventas</h4>
                     </div>
+                    <div class="col-4">
+                        <div class="text-right">
+                            <a routerLink="/account/venta/nuevo" class="btn btn-primary fa-pull-right mb-3"><i class="fas fa-plus-square"></i> Realizar venta</a>
+                        </div>
+                    </div>
                 </div>
                 <table class="table table-bordered">
                     <thead class="thead-light">
@@ -55,12 +45,13 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let venta of ventas">
-                            <td>{{venta.user.first_name}} {{venta.user.last_name}}</td>
+                            <td>{{venta.cliente}}</td>
                             <td>{{venta.created_at}}</td>
                             <td>${{venta.total}}</td>
                             <td class="text-center">
                                 <a class="cursor m-1" data-toggle="modal" data-target="#detalleVenta" (click)="detalleVenta(venta)"><i class="fas fa-eye" data-toggle="tooltip" data-placement="top" title="Ver detalle"></i></a>
-                                <a class="cursor m-1" *ngIf="venta.status == 'CANCELADO'" data-toggle="tooltip" data-placement="top" title="Reembolsar" (click)="reembolsar(venta)"><i class="fas fa-donate"></i></a>
+                                <a class="cursor m-1" (click)="eliminarVenta(venta)" data-toggle="tooltip" data-placement="top" title="Eliminar"><i class="fas fa-trash"></i></a>
+
                             </td>
                         </tr>
                     </tbody>

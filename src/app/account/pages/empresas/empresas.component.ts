@@ -60,20 +60,6 @@ export class EmpresasComponent implements OnInit,AfterViewChecked {
     }
   }
 
-  buscar(termino:string){
-    if(termino.length === 0){
-      this.cargarEmpresas();      
-      return
-    }
-    this.cargando = true;
-    this.empresaService.cargarEmpresas(termino)
-    .subscribe(empresas => {
-      console.log(empresas);
-      
-      this.cargando = false;
-      this.empresas = empresas;
-    });
-  }
 
   actualizarEmpresa(empresa:Empresa){
     this.empresaService.actualizarEmpresa(empresa.id,empresa.nombre)

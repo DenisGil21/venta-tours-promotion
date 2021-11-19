@@ -7,10 +7,10 @@ export interface Venta {
     subtotal?: any;
     total: number;
     fecha: string;
-    created_at: Date;
+    created_at: string;
     status: string;
     metodo_pago:string;
     reembolso_compra:string;
-    user: Usuario;
+    cliente: string;
     paquete: Paquete;
 }

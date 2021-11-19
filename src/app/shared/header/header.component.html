@@ -19,7 +19,6 @@
             <!-- <div id="google_translate_element"></div> -->
             <input #txtTermino class="form-control mr-sm-2" type="search" placeholder="Buscar paquete" aria-label="Search">
             <button class="btn btn-outline-light my-2 my-sm-0 mr-2" type="submit"><i class="fas fa-search"></i> Buscar</button>
-            <a *ngIf="!existeUsuario()" class="btn btn-outline-light my-2 my-sm-0" routerLink='/auth/login'><i class="fas fa-user"></i> Iniciar sesion</a>
             <ul *ngIf="existeUsuario()" class="navbar-nav mr-auto">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

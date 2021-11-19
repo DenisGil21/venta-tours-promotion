@@ -43,6 +43,13 @@ export class PaqueteService {
     );
   }
 
+  cargarPaquetesSinPaginar(){
+    let params = new HttpParams().set('all','');
+    return this.http.get(url,{params}).pipe(
+      map((resp:{ paquetes:Paquete[]}) => resp.paquetes)
+    );
+  }
+
   cargarPaquete(id:number){
     return this.http.get(`${url}/${id}`).pipe(
       map((resp:{paquete:Paquete})=>resp.paquete)
