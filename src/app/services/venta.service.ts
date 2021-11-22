@@ -39,7 +39,7 @@ export class VentaService {
     { headers};
     return this.http.get(url, options)
     .pipe(
-      map((resp:{ventas:{next_page_url:string, prev_page_url:string, data:Venta[]}}) => resp.ventas)
+      map((resp:{results:{next_page_url:string, prev_page_url:string, data:Venta[]}}) => resp.results)
     )
   }
 
